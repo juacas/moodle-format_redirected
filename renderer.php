@@ -55,23 +55,20 @@ class format_redirected_renderer extends plugin_renderer_base {
         // Get matalinked courses and list them.
         $metas = format_redirected::get_metalinks($course->id);
         $outputlist = '';
+        $courses = [];
         foreach ($metas as $meta) {
             $course = get_course($meta->courseid);
-
+            $courses[] = $course;
             $creationdate = userdate($meta->timecreated);
-            $courseinfo = $this->page->get_renderer('core', 'course')->course_info_box($course);
             $a = (object)[
                         'coursename' => $course->fullname,
                         'creationtime' => $creationdate,
-                        'courseinfo' => $courseinfo
                         ];
             $metalinktext = new lang_string('metalinktext', 'format_redirected', $a);
-            $outputlist .= $metalinktext;
+            $course->summary .= $metalinktext;
         }
-        $output .= get_string('metalinked', 'format_redirected');
-        $output .= $this->output->box($outputlist,
-                        'card-deck dashboard-card-deck fixed-width-cards overflow-hidden justify-content-start');
-
+        // Render list of courses.
+        $output .= $this->page->get_renderer('core', 'course')->courses_list($courses);
         return $output;
     }
 }

@@ -24,7 +24,7 @@
 $string['redirectedcourse'] = 'Este curso está siendo redirigido.';
 $string['redirectedhelp'] = 'Este formato de curso redirige a los estudiantes a uno o más cursos. Si sólo hay un curso de destino, la redirección se realiza de forma silenciosa. Si no, se muestra una lista de enlaces a los cursos de destino.';
 $string['metalinked'] = 'Este curso está vinculado a los siguientes cursos:';
-$string['metalinktext'] = '<div>{$a->courseinfo} Fusionado el {$a->creationtime}</div>';
+$string['metalinktext'] = '<div>Fusionado el {$a->creationtime}</div>';
 $string['format_redirected_noticeforteachers'] = 'Mensaje para los docentes';
 $string['format_redirected_noticeforteachers_desc'] = 'Texto que se mostrará a los profesores en la página de redirección';
 $string['format_redirected_defaultnoticeforteachers'] = 'Si cambia el formato del curso sus alumnos podrán entrar en este curso y también en su curso fusionado. Ambos espacios son diferentes y separados. Puede causar confusión.';

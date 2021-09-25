@@ -54,7 +54,7 @@ class format_redirected_renderer extends plugin_renderer_base {
         $output .= $this->output->notification(get_config('format_redirected', 'noticeforstudents'), notification::NOTIFY_INFO);
         // Get matalinked courses and list them.
         $metas = format_redirected::get_metalinks($course->id);
-        $outputlist = '<ul>';
+        $outputlist = '';
         foreach ($metas as $meta) {
             $course = get_course($meta->courseid);
 
@@ -67,10 +67,10 @@ class format_redirected_renderer extends plugin_renderer_base {
                         ];
             $metalinktext = new lang_string('metalinktext', 'format_redirected', $a);
             $outputlist .= $metalinktext;
-
         }
-        $outputlist .= '</ul>';
-        $output .= $this->output->box(get_string('metalinked', 'format_redirected', $outputlist));
+        $output .= get_string('metalinked', 'format_redirected');
+        $output .= $this->output->box($outputlist,
+                        'card-deck dashboard-card-deck fixed-width-cards overflow-hidden justify-content-start');
 
         return $output;
     }

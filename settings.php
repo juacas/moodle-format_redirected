@@ -25,5 +25,22 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-
+    $settings->add(new admin_setting_confightmleditor(
+        'format_redirected/noticeforteachers',
+        new lang_string('format_redirected_noticeforteachers', 'format_redirected'),
+        new lang_string('format_redirected_noticeforteachers_desc', 'format_redirected'),
+        new lang_string('format_redirected_defaultnoticeforteachers', 'format_redirected'),
+        PARAM_RAW,
+        '60',
+        '8'
+    ));
+    $settings->add(new admin_setting_confightmleditor(
+        'format_redirected/noticeforstudents',
+        new lang_string('format_redirected_noticeforstudents', 'format_redirected'),
+        new lang_string('format_redirected_noticeforstudents_desc', 'format_redirected'),
+        new lang_string('format_redirected_defaultnoticeforstudents', 'format_redirected'),
+        PARAM_RAW,
+        '60',
+        '8'
+    ));
 }

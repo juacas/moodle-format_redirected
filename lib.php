@@ -97,7 +97,7 @@ class format_redirected extends format_base {
     /**
      * @return array
      */
-    static function get_metalinks($courseid) {
+    public static function get_metalinks($courseid) {
         global $DB;
         return $DB->get_records('enrol', array('customint1' => $courseid, 'enrol' => 'meta'), 'courseid');
     }

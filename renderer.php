@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core\output\notification;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -44,17 +46,29 @@ class format_redirected_renderer extends plugin_renderer_base {
         $output = '';
         $modinfo = get_fast_modinfo($course);
         $output .= $this->output->heading(get_string('redirectedcourse', 'format_redirected'), 3, 'sectionname');
+        // Teacher's message.
+        if (has_capability('moodle/course:update', context_course::instance($course->id))) {
+            $output .= $this->output->notification(get_config('format_redirected', 'noticeforteachers', notification::NOTIFY_WARNING));
+        }
+        // Student's message.
+        $output .= $this->output->notification(get_config('format_redirected', 'noticeforstudents'), notification::NOTIFY_INFO);
         // Get matalinked courses and list them.
         $metas = format_redirected::get_metalinks($course->id);
         $outputlist = '<ul>';
-        foreach($metas as $meta) {
+        foreach ($metas as $meta) {
             $course = get_course($meta->courseid);
             $url = new moodle_url('/course/view.php', ['id' => $course->id]);
-            $outputlist .= '<li><a href="'. $url->out() . '" >' . $course->fullname . '</a></li>';
+            $a = (object)[
+                        'coursename' => $course->fullname,
+                        'url' => $url->out(),
+                        'creationtime' => userdate($meta->timecreated, get_string('strftimedatetime', 'core_langconfig'))
+                        ];
+            $metalinktext = new lang_string('metalinktext', 'format_redirected', $a);
+            $outputlist .= $metalinktext;
         }
         $outputlist .= '</ul>';
         $output .= $this->output->box(get_string('metalinked', 'format_redirected', $outputlist));
-        
+
         return $output;
     }
 }

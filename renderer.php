@@ -58,10 +58,11 @@ class format_redirected_renderer extends plugin_renderer_base {
         foreach ($metas as $meta) {
             $course = get_course($meta->courseid);
             $url = new moodle_url('/course/view.php', ['id' => $course->id]);
+            $creationdate = userdate($meta->timecreated);
             $a = (object)[
                         'coursename' => $course->fullname,
                         'url' => $url->out(),
-                        'creationtime' => userdate($meta->timecreated, get_string('strftimedatetime', 'core_langconfig'))
+                        'creationtime' => $creationdate
                         ];
             $metalinktext = new lang_string('metalinktext', 'format_redirected', $a);
             $outputlist .= $metalinktext;

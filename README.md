@@ -1,9 +1,11 @@
 # Redirect course format #
 
 This course format redirects to courses that metalink the current one.
-It is usefull when you want to fuse various courses into one.
-Previously, the original courses need to be hidden from students.
-With this format the original courses can be visible and browsable avoiding student confussion.
+It is useful when you want to fuse various "source" courses into a "target" course and wants to do all the teaching in the "fused" one.
+Usually the original courses need to be hidden from students and hence they are not browsable and
+dificult to find. If the source courses are not hidden, teachers and students may get confused with all that courses.
+
+By setting the source courses to "Redirect format" the original courses can be visible and browsable avoiding student confussion but they transparently are redirected to the target course.
 
 Current implementation only redirects to courses that have metalinked to this course.
 More redirection conditions may be implemented in the future.

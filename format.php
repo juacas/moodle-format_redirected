@@ -24,6 +24,7 @@
  * @copyright  2021 Juan Pablo de Castro
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
 $courserenderer = $PAGE->get_renderer('format_redirected');
 echo $courserenderer->display($course, $section != 0);

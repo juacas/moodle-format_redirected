@@ -97,7 +97,7 @@ class format_redirected extends format_base {
     }
     public static function get_target_courses($course) {
         $courses = [];
-        $metas = format_redirected::get_metalinks($course->id);
+        $metas = self::get_metalinks($course->id);
         foreach ($metas as $meta) {
             $course = get_course($meta->courseid);
             $courses[] = $course;

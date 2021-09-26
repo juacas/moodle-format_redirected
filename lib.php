@@ -95,6 +95,11 @@ class format_redirected extends format_base {
         }
         return false;
     }
+    /**
+     * Scans a course and determines what other courses are to be redirected to.
+     * @param stdClass $course to be redirected.
+     * @return array courses that are to be redirected to.
+     */
     public static function get_target_courses($course) {
         $courses = [];
         $metas = self::get_metalinks($course->id);
@@ -112,6 +117,8 @@ class format_redirected extends format_base {
         return $courses;
     }
     /**
+     * Query the enrolment table for metalinks to this course.
+     * @param int $courseid the id of the course.
      * @return array
      */
     public static function get_metalinks($courseid) {

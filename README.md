@@ -5,7 +5,8 @@ It is useful when you want to fuse various "source" courses into a "target" cour
 Usually the original courses need to be hidden from students and hence they are not browsable and
 dificult to find. If the source courses are not hidden, teachers and students may get confused with all that courses.
 
-By setting the source courses to "Redirect format" the original courses can be visible and browsable avoiding student confussion but they transparently are redirected to the target course.
+By setting the source courses to "Redirect format" the original courses can be visible and browsable avoiding student confussion but they are transparently redirected to the target course.
+If there is only one target course, students are redirected directly. If there are more than one, an navigation page is shown instead.
 
 Current implementation only redirects to courses that have metalinked to this course.
 More redirection conditions may be implemented in the future.

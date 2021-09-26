@@ -21,7 +21,7 @@
  * @copyright  2021 Juan Pablo de Castro
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['redirectedcourse'] = 'This course is being redirected.';
+$string['redirectedcourse'] = 'This course is configured as "Redirected".';
 $string['redirectedhelp'] = 'This course format redirects students to one or more courses. If there is only one target course the redirection is done silently. Else, a list of links to the target courses is shown.';
 $string['metalinked'] = 'This course is metalinked by the following courses:';
 $string['metalinktext'] = '<div>Merged at {$a->creationtime}</div>';
@@ -31,5 +31,6 @@ $string['format_redirected_defaultnoticeforteachers'] = 'If you change the cours
 $string['format_redirected_defaultnoticeforstudents'] = 'The teacher has merged several Moodle courses into other shared courses. Below are the courses where the actual teaching takes place.';
 $string['format_redirected_noticeforstudents'] = 'Message for general public';
 $string['format_redirected_noticeforstudents_desc'] = 'Text to be shown to all the users in the redirection page. It is designed to tell the reason of the redirection';
+$string['notredirected_error'] = 'This course is incorrectly configured as "Redirected" but no redirection is possible. Need teacher or admin intervention.';
 $string['pluginname'] = 'Redirected format';
 $string['privacy:metadata'] = 'The Redirected to METAs format plugin does not store any personal data.';

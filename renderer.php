@@ -48,27 +48,18 @@ class format_redirected_renderer extends plugin_renderer_base {
         $output .= $this->output->heading(get_string('redirectedcourse', 'format_redirected'), 3, 'sectionname');
         // Teacher's message.
         if (has_capability('moodle/course:update', context_course::instance($course->id))) {
-            $output .= $this->output->notification(get_config('format_redirected', 'noticeforteachers', notification::NOTIFY_WARNING));
+            $output .= $this->output->notification(get_config('format_redirected', 'noticeforteachers', notification::NOTIFY_INFO));
         }
-        // Student's message.
-        $output .= $this->output->notification(get_config('format_redirected', 'noticeforstudents'), notification::NOTIFY_INFO);
         // Get matalinked courses and list them.
-        $metas = format_redirected::get_metalinks($course->id);
-        $outputlist = '';
-        $courses = [];
-        foreach ($metas as $meta) {
-            $course = get_course($meta->courseid);
-            $courses[] = $course;
-            $creationdate = userdate($meta->timecreated);
-            $a = (object)[
-                        'coursename' => $course->fullname,
-                        'creationtime' => $creationdate,
-                        ];
-            $metalinktext = new lang_string('metalinktext', 'format_redirected', $a);
-            $course->summary .= $metalinktext;
+        $courses = format_redirected::get_target_courses($course);
+        if (count($courses) > 0) {
+            // Student's message.
+            $output .= $this->output->notification(get_config('format_redirected', 'noticeforstudents'), notification::NOTIFY_INFO);
+            // Render list of courses.
+            $output .= $this->page->get_renderer('core', 'course')->courses_list($courses);
+        } else {
+            $output .= $this->output->notification(get_string('notredirected_error', 'format_redirected'), notification::NOTIFY_ERROR);
         }
-        // Render list of courses.
-        $output .= $this->page->get_renderer('core', 'course')->courses_list($courses);
         return $output;
     }
 }

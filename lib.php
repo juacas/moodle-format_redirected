@@ -50,7 +50,7 @@ class format_redirected extends format_base {
      * @return null|moodle_url
      */
     public function get_view_url($section, $options = array()) {
-        $targeturl = $this->get_redirection();
+        $targeturl = $this->get_main_redirection();
         if ($targeturl) {
             return $targeturl;
         } else {
@@ -73,15 +73,16 @@ class format_redirected extends format_base {
      * @param moodle_page $page instance of page calling set_course
      */
     public function page_set_course(moodle_page $page) {
-        $targeturl = $this->get_redirection();
+        $targeturl = $this->get_main_redirection();
         if ($targeturl) {
             redirect($targeturl, 'This course has been redirected from: ' . $this->get_course()->fullname);
         }
     }
     /**
+     * Get the main redirection if there is a criteria to select just one.
      * @return moodle_url|false
      */
-    protected function get_redirection() {
+    protected function get_main_redirection() {
         // Users with teacher's capabilities view the informative page.
         if (has_capability('moodle/course:update', context_course::instance($this->courseid))) {
             return false;
@@ -93,6 +94,22 @@ class format_redirected extends format_base {
             return $targeturl;
         }
         return false;
+    }
+    public static function get_target_courses($course) {
+        $courses = [];
+        $metas = format_redirected::get_metalinks($course->id);
+        foreach ($metas as $meta) {
+            $course = get_course($meta->courseid);
+            $courses[] = $course;
+            $creationdate = userdate($meta->timecreated);
+            $a = (object)[
+                'coursename' => $course->fullname,
+                'creationtime' => $creationdate,
+            ];
+            $metalinktext = new lang_string('metalinktext', 'format_redirected', $a);
+            $course->summary .= $metalinktext;
+        }
+        return $courses;
     }
     /**
      * @return array

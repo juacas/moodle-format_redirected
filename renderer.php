@@ -48,10 +48,10 @@ class format_redirected_renderer extends plugin_renderer_base {
         $output .= $this->output->heading(get_string('redirectedcourse', 'format_redirected'), 3, 'sectionname');
         // Teacher's message.
         if (has_capability('moodle/course:update', context_course::instance($course->id))) {
-            $output .= $this->output->notification(format_text(get_config(
+            $output .= $this->output->notification(
+                format_text(get_config(
                     'format_redirected',
-                    'noticeforteachers'
-                )),
+                    'noticeforteachers'), FORMAT_HTML),
                 notification::NOTIFY_WARNING
             );
         }
@@ -59,7 +59,7 @@ class format_redirected_renderer extends plugin_renderer_base {
         $courses = format_redirected::get_target_courses($course);
         if (count($courses) > 0) {
             // Student's message.
-            $output .= $this->output->notification(format_text(get_config('format_redirected', 'noticeforstudents')),
+            $output .= $this->output->notification(format_text(get_config('format_redirected', 'noticeforstudents'), FORMAT_HTML),
                                                     notification::NOTIFY_INFO);
             // Render list of courses.
             $output .= $this->page->get_renderer('core', 'course')->courses_list($courses);

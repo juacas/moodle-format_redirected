@@ -25,6 +25,7 @@ $string['redirectedcourse'] = 'This course is configured as "Redirected".';
 $string['redirectedhelp'] = 'This course format redirects students to one or more courses. If there is only one target course the redirection is done silently. Else, a list of links to the target courses is shown.';
 $string['metalinked'] = 'This course is metalinked by the following courses:';
 $string['metalinktext'] = '<div>Merged at {$a->creationtime}</div>';
+$string['course_redirected_from'] = 'This course has been redirected from: {$a}';
 $string['format_redirected_noticeforteachers'] = 'Message for teachers';
 $string['format_redirected_noticeforteachers_desc'] = 'Text to be shown to teachers in the redirection page';
 $string['format_redirected_defaultnoticeforteachers'] = 'If you change the course format your students will be able to enter this course and also your merged course. Both spaces are different and separate. It may lead to confusion.';

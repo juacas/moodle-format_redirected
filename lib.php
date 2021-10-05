@@ -75,7 +75,7 @@ class format_redirected extends format_base {
     public function page_set_course(moodle_page $page) {
         $targeturl = $this->get_main_redirection();
         if ($targeturl) {
-            redirect($targeturl, 'This course has been redirected from: ' . $this->get_course()->fullname);
+            redirect($targeturl, get_string('course_redirected_from', 'format_redirected', $this->get_course()->fullname));
         }
     }
     /**

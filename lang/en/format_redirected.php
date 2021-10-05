@@ -34,3 +34,4 @@ $string['format_redirected_noticeforstudents_desc'] = 'Text to be shown to all t
 $string['notredirected_error'] = 'This course is incorrectly configured as "Redirected" but no redirection is possible. Need teacher or admin intervention.';
 $string['pluginname'] = 'Redirected format';
 $string['privacy:metadata'] = 'The Redirected to METAs format plugin does not store any personal data.';
+$string['sectionname'] = '';

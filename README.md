@@ -10,6 +10,10 @@ If there is only one target course, students are redirected directly. If there a
 
 Current implementation only redirects to courses that have metalinked to this course.
 More redirection conditions may be implemented in the future.
+# Release
+
+- v0.0.5 compatible with Moodle 3.x
+- v0.0.6 compatible with Modole 4.x
 
 ## License ##
 

@@ -97,14 +97,24 @@ class format_redirected extends core_courseformat\base {
     }
     /**
      * Scans a course and determines what other courses are to be redirected to.
+     * Use system config for the pattern to exclude courses.
      * @param stdClass $course to be redirected.
      * @return array courses that are to be redirected to.
      */
     public static function get_target_courses($course) {
         $courses = [];
         $metas = self::get_metalinks($course->id);
+        // Get the excluded pattern.
+        $excludepattern = get_config('format_redirected', 'excludepattern');
+        if ($excludepattern) {
+            $excludepattern = '/' . $excludepattern . '/';
+        }
         foreach ($metas as $meta) {
             $course = get_course($meta->courseid);
+            // Check if the course is excluded.
+            if ($excludepattern && preg_match($excludepattern, $course->idnumber)) {
+                continue;
+            }
             $courses[] = $course;
             $creationdate = userdate($meta->timecreated);
             $a = (object)[

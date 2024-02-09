@@ -43,4 +43,12 @@ if ($ADMIN->fulltree) {
         '60',
         '8'
     ));
+    // Pattern to match the course idnumber to exclude from the list of courses to redirect to.
+    $settings->add(new admin_setting_configtext(
+        'format_redirected/excludepattern',
+        new lang_string('excludepattern', 'format_redirected'),
+        new lang_string('excludepattern_desc', 'format_redirected'),
+        '^(TIT-.*|DEMO-.*)$',
+        PARAM_TEXT
+    ));
 }

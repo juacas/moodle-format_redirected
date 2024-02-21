@@ -21,8 +21,9 @@
  * @copyright  2021 Juan Pablo de Castro
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+namespace format_redirected\output;
 use core\output\notification;
+use core_courseformat\output\section_renderer;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -33,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2021 Juan Pablo de Castro
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_redirected_renderer extends plugin_renderer_base {
+class renderer extends section_renderer {
 
     /**
      * Displays the list of redirected courses when user is not
@@ -47,7 +48,7 @@ class format_redirected_renderer extends plugin_renderer_base {
         $modinfo = get_fast_modinfo($course);
         $output .= $this->output->heading(get_string('redirectedcourse', 'format_redirected'), 3, 'sectionname');
         // Teacher's message.
-        if (has_capability('moodle/course:update', context_course::instance($course->id))) {
+        if (has_capability('moodle/course:update', \context_course::instance($course->id))) {
             $output .= $this->output->notification(
                 format_text(get_config(
                     'format_redirected',
@@ -56,7 +57,7 @@ class format_redirected_renderer extends plugin_renderer_base {
             );
         }
         // Get matalinked courses and list them.
-        $courses = format_redirected::get_target_courses($course);
+        $courses = \format_redirected::get_target_courses($course);
         if (count($courses) > 0) {
             // Student's message.
             $output .= $this->output->notification(format_text(get_config('format_redirected', 'noticeforstudents'), FORMAT_HTML),

@@ -14,6 +14,7 @@ More redirection conditions may be implemented in the future.
 
 - v0.0.5 compatible with Moodle 3.x
 - v0.0.6 compatible with Modole 4.x
+- v0.0.7 compatible with moodle 4.2
 
 ## License ##
 

@@ -102,13 +102,14 @@ class format_redirected extends core_courseformat\base {
      * @return array courses that are to be redirected to.
      */
     public static function get_target_courses($course) {
+        global $DB;
         $courses = [];
-        $metas = self::get_metalinks($course->id);
         // Get the excluded pattern.
         $excludepattern = get_config('format_redirected', 'excludepattern');
         if ($excludepattern) {
             $excludepattern = '/' . $excludepattern . '/';
         }
+        $metas = self::get_metalinks($course->id);
         foreach ($metas as $meta) {
             $course = get_course($meta->courseid);
             // Check if the course is excluded.
@@ -124,6 +125,25 @@ class format_redirected extends core_courseformat\base {
             $metalinktext = new lang_string('metalinktext', 'format_redirected', $a);
             $course->summary .= $metalinktext;
         }
+        // Check metabulk links if the enrol_metabulk plugin is installed
+        if ($DB->count_records('config_plugins', array('plugin' => 'enrol_metabulk', 'name' => 'version'))==1) {
+            $metabulks = self::get_metabulklinks($course->id);
+            foreach ($metabulks as $metabulk) {
+                $course = get_course($metabulk->courseid);
+                // Check if the course is excluded.
+                if ($excludepattern && preg_match($excludepattern, $course->idnumber)) {
+                    continue;
+                }
+                $courses[] = $course;
+                $creationdate = userdate($metabulk->timecreated);
+                $a = (object)[
+                    'coursename' => $course->fullname,
+                    'creationtime' => $creationdate,
+                ];
+                $metalinktext = new lang_string('metalinktext', 'format_redirected', $a);
+                $course->summary .= $metalinktext;
+            }
+        }
         return $courses;
     }
     /**
@@ -133,7 +153,17 @@ class format_redirected extends core_courseformat\base {
      */
     public static function get_metalinks($courseid) {
         global $DB;
-        return $DB->get_records('enrol', array('customint1' => $courseid, 'enrol' => 'meta'), 'courseid');
+        return $DB->get_records('enrol', array('customint1' => $courseid, 'enrol' => 'meta'), 'courseid','courseid,timecreated');
+    }
+    /**
+     * Query the enrolment table for metabulklinks to this course.
+     * @param int $courseid the id of the course.
+     * @return array
+     */
+    public static function get_metabulklinks($courseid) {
+        global $DB;
+        $sql = 'SELECT e.courseid, e.timecreated FROM {enrol_metabulk} as enrol, {enrol} as e WHERE (enrol.enrolid = e.id) AND enrol.courseid = '.$courseid;
+        return $DB->get_recordset_sql($sql);
     }
     /**
      * Returns true if the course has a front page.

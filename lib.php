@@ -126,7 +126,7 @@ class format_redirected extends core_courseformat\base {
             $course->summary .= $metalinktext;
         }
         // Check metabulk links if the enrol_metabulk plugin is installed
-        if ($DB->count_records('config_plugins', array('plugin' => 'enrol_metabulk', 'name' => 'version'))==1) {
+        if ($DB->count_records('config_plugins', array('plugin' => 'enrol_metabulk', 'name' => 'version')) == 1) {
             $metabulks = self::get_metabulklinks($course->id);
             foreach ($metabulks as $metabulk) {
                 $course = get_course($metabulk->courseid);
@@ -162,8 +162,12 @@ class format_redirected extends core_courseformat\base {
      */
     public static function get_metabulklinks($courseid) {
         global $DB;
-        $sql = 'SELECT e.courseid, e.timecreated FROM {enrol_metabulk} as enrol, {enrol} as e WHERE (enrol.enrolid = e.id) AND enrol.courseid = '.$courseid;
-        return $DB->get_recordset_sql($sql);
+        $sql = "SELECT e.courseid, e.timecreated 
+                  FROM {enrol_metabulk} as enrol 
+                  JOIN {enrol} as e ON (enrol.enrolid = e.id)
+                 WHERE enrol.courseid = :courseid";
+        $params['courseid'] = $courseid;
+        return $DB->get_recordset_sql($sql , $params);
     }
     /**
      * Returns true if the course has a front page.

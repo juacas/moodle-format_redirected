@@ -30,6 +30,7 @@ require_once($CFG->dirroot. '/course/format/lib.php');
  *
  * @package    format_redirected
  * @copyright  2021 Juan Pablo de Castro
+ * @author @izendegi PR Metabulk links support.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_redirected extends core_courseformat\base {
@@ -103,7 +104,10 @@ class format_redirected extends core_courseformat\base {
      */
     public static function get_target_courses($course) {
         $courses = [];
-        $metas = self::get_metalinks($course->id);
+        $metalinks = self::get_metalinks($course->id);
+        $metabulks = self::get_metabulklinks($course->id); // PR by @izendegi.
+
+        $metas = array_merge($metalinks, $metabulks);
         // Get the excluded pattern.
         $excludepattern = get_config('format_redirected', 'excludepattern');
         if ($excludepattern) {
@@ -134,6 +138,25 @@ class format_redirected extends core_courseformat\base {
     public static function get_metalinks($courseid) {
         global $DB;
         return $DB->get_records('enrol', array('customint1' => $courseid, 'enrol' => 'meta'), 'courseid');
+    }
+    /**
+     * Query the enrolment table for metabulklinks to this course.
+     * Based on PR by @izendegi https://github.com/juacas/moodle-format_redirected/pull/3
+     * @param int $courseid the id of the course.
+     * @return array
+     */
+    public static function get_metabulklinks($courseid) {
+        // Check if the metabulk plugin is installed.
+        if (!enrol_is_enabled('metabulk')) {
+            return [];
+        }
+        global $DB;
+        $sql = "SELECT e.courseid, e.timecreated 
+                  FROM {enrol_metabulk} as enrol 
+                  JOIN {enrol} as e ON (enrol.enrolid = e.id)
+                 WHERE enrol.courseid = :courseid";
+        $params['courseid'] = $courseid;
+        return $DB->get_records_sql($sql , $params);
     }
     /**
      * Returns true if the course has a front page.

@@ -1,4 +1,4 @@
-@format @format_redirected
+@format @format_redirected @javascript
 Feature: Edit format course to Redirected format
   In order to set the format course to Redirected course
   As a teacher
@@ -15,12 +15,12 @@ Feature: Edit format course to Redirected format
       | user | course | role |
       | teacher1 | C1 | editingteacher |
     And I log in as "teacher1"
-    And I am on "Course 1" course homepage
-    When I navigate to "Edit settings" in current page administration
+    When I am on "Course 1" course homepage with editing mode on
+    And I navigate to "Settings" in current page administration
+    And I expand all fieldsets
     And I set the following fields to these values:
       | Course full name  | My first course |
       | Course short name | myfirstcourse |
       | Format | Redirected format |
-    And I press "Update format"
     And I press "Save and display"
-    And I should see "This course is being redirected"
+    Then I should see "This course is configured as"

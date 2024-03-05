@@ -1,4 +1,4 @@
-@format @format_redirected
+@format @format_redirected @javascript
 Feature: Courses can be created in Single Activity mode
   In order to create a single activity course
   As a manager
@@ -27,10 +27,10 @@ Feature: Courses can be created in Single Activity mode
     And I log in as "kevin"
     And I am on site homepage
     When I press "Add a new course"
+    And I expand all fieldsets
     And I set the following fields to these values:
       | Course full name  | My first course |
       | Course short name | myfirstcourse |
       | Format | Redirected format |
-    And I press "Update format"
     And I press "Save and display"
-    And I should see "This course is being redirected"
+    Then I should see "This course is configured as"
